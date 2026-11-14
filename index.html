@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Cute Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6f0;--card:#ffffff;--ink:#5a3a4c;--soft:#a07c8f;--pink:#ff9ebb;--pink2:#ffd6e2;--mint:#c9f0df;--butter:#fff1a8;--sky:#cfe6ff;--line:#f3d9e3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Patrick Hand','Comic Sans MS',cursive,sans-serif;font-size:1.3rem;line-height:1.5;
+  background-image:radial-gradient(var(--pink2) 2px,transparent 2px);background-size:28px 28px}
+main{max-width:860px;margin:0 auto;padding:32px 18px 60px}
+h1{font-family:'Fredoka','Trebuchet MS',sans-serif;font-weight:600;font-size:clamp(2.2rem,7vw,3.4rem);margin:0;text-align:center;line-height:1.1}
+.sub{text-align:center;color:var(--soft);margin:.4rem 0 2rem}
+.list{display:flex;flex-direction:column;gap:32px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:center;background:var(--card);border-radius:28px;padding:18px;box-shadow:0 6px 0 var(--pink2)}
+.item:nth-child(even){direction:rtl}
+.item:nth-child(even)>*{direction:ltr}
+.pic{position:relative;background:#fff;padding:10px;border-radius:12px;box-shadow:0 3px 10px rgba(90,58,76,.18);transform:rotate(-2deg)}
+.item:nth-child(even) .pic{transform:rotate(2deg)}
+.pic img{width:100%;display:block;border-radius:6px;max-height:380px;object-fit:cover}
+.pic::before{content:"";position:absolute;top:-12px;left:50%;width:84px;height:24px;margin-left:-42px;background:var(--butter);opacity:.9;transform:rotate(3deg);border-radius:4px}
+.item:nth-child(3n+2) .pic::before{background:var(--mint)}
+.item:nth-child(3n) .pic::before{background:var(--sky)}
+.note{font-size:1.4rem;padding:6px 4px;white-space:pre-line}
+footer{text-align:center;color:var(--soft);margin-top:36px;font-size:1.1rem}
+@media (max-width:640px){.item,.item:nth-child(even){grid-template-columns:1fr;direction:ltr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>My Cute Gallery 🌸</h1>
+  <p class="sub">A little collection of my favorite moments</p>
+  <section class="list" id="list"></section>
+  <footer>Made with love 💕</footer>
+</main>
+
+<script>
+/* ============================================================
+   ADD YOUR PHOTOS HERE 💕
+   1. Put your photos in a folder called "photos" next to this file
+   2. Copy one line below for each photo: img = the file name, text = what you want to write
+   3. To delete a photo, just delete its line
+   ============================================================ */
+var GALLERY = [
+  { img: "A1.jpeg", text: "Adam or NO ONE ✨" },
+  { img: "A2.jpeg", text: "If there is no Adam in ur life, go get one 💅" },
+  { img: "A3.jpeg", text: "Is it hot in here or is it just Adam? 🔥" },
+  { img: "A4.jpeg", text: "Adam walked in and my brain said: error 404, thoughts not found 🙈" },
+  { img: "A5.jpeg", text: "Not saying Adam is cute, but my heart skips a beat every time 💓" },
+  { img: "A6.jpeg", text: "Dear Adam, stop being this charming, it's illegal 🚨" },
+  { img: "A7.jpeg", text: "I came for the snacks, I stayed for Adam 🍓" },
+  { img: "A8.jpeg", text: "Adam's smile should come with a warning label 😍" },
+  { img: "A9.jpeg", text: "Roses are red, violets are blue, Adam is cute, and he knows it too 🌹" },
+  { img: "A10.jpeg", text: "Adam, are you a magnet? Because I keep ending up next to you 🧲" },
+  { img: "A11.jpeg", text: "My love language is staring at Adam for too long 👀" },
+  { img: "A12.jpeg", text: "Everyone deserves an Adam, but sorry, this one's special 😌" },
+  { img: "A13.jpeg", text: "Adam said hi and now I'm blushing for no reason 🌸" },
+  { img: "A14.jpeg", text: "If cuteness was a crime, Adam would be locked up forever 🔒💕" },
+  { img: "A15.jpeg", text: "Plot twist: Adam is the main character and I'm his biggest fan 🎬" },
+  { img: "A16.jpeg", text: "Adam, you're the reason I check my phone every 2 minutes 📱💌" },
+  { img: "A17.jpeg", text: "Warning: too much Adam may cause heart eyes 😻" },
+  { img: "A18.jpeg", text: "Even though ur crazy, you're still the Adam we love 💗" }
+];
+/* ============================================================ */
+
+var list = document.getElementById('list');
+var emojis = ['🌸','🐣','🍓','🌈','🧸'];
+var tint = ['#ffd6e2','#c9f0df','#cfe6ff','#fff1a8'];
+
+function placeholder(i){
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450"><rect width="600" height="450" fill="' + tint[i % tint.length] + '"/>' +
+    '<text x="300" y="235" font-size="110" text-anchor="middle">' + emojis[i % emojis.length] + '</text>' +
+    '<text x="300" y="320" font-size="28" text-anchor="middle" fill="#8a5a70" font-family="sans-serif">your photo goes here</text></svg>';
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+GALLERY.forEach(function(g, i){
+  var row = document.createElement('article'); row.className = 'item';
+  var pic = document.createElement('div'); pic.className = 'pic';
+  var im = document.createElement('img'); im.src = g.img; im.alt = g.text;
+  im.onerror = function(){ im.onerror = null; im.src = placeholder(i); };
+  pic.appendChild(im);
+  var note = document.createElement('div'); note.className = 'note'; note.textContent = g.text;
+  row.appendChild(pic); row.appendChild(note);
+  list.appendChild(row);
+});
+</script>
+</body>
+</html>
